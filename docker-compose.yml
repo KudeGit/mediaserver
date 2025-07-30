@@ -31,9 +31,6 @@ services:
     volumes:
       - /data/radarr/config:/config
       - /data/arr/data:/data
-      # using hardlink
-      # - /path/to/movies:/movies #optional
-      # - /path/to/download-client-downloads:/downloads #optional
     ports:
       - 7878:7878
     networks:
@@ -51,9 +48,6 @@ services:
     volumes:
       - /data/sonarr/config:/config
       - /data/arr/data:/data
-      # using hardlink
-      # - /path/to/movies:/movies #optional
-      # - /path/to/download-client-downloads:/downloads #optional
     ports:
       - 8989:8989
     networks:
@@ -102,6 +96,21 @@ services:
     networks:
       - mediaservernet
     hostname: jellyfin
+    restart: unless-stopped
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1006
+      - PGID=1002
+      - TZ=Europe/Zurich
+    volumes:
+      - /data/arr/data:/config
+    ports:
+      - 9696:9696
+    networks:
+      - mediaservernet
     restart: unless-stopped
 
 networks:
